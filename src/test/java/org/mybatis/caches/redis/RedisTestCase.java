@@ -21,6 +21,7 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import yunnex.mybatis.caches.redis.RedisCache;
 
 /**
  * Test with Ubuntu
