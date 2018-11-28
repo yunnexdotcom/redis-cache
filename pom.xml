@@ -18,17 +18,15 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
   <parent>
-    <groupId>org.mybatis</groupId>
-    <artifactId>mybatis-parent</artifactId>
-    <version>30</version>
-    <relativePath />
+    <groupId>yunnex</groupId>
+    <artifactId>yunnex</artifactId>
+    <version>5.5.2</version>
   </parent>
 
-  <groupId>org.mybatis.caches</groupId>
-  <artifactId>mybatis-redis</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <groupId>yunnex</groupId>
+  <artifactId>yunnex-mybatis-redis</artifactId>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
 
   <name>mybatis-redis</name>
@@ -37,12 +35,6 @@
 
   <inceptionYear>2015</inceptionYear>
 
-  <scm>
-    <url>http://github.com/mybatis/redis-cache</url>
-    <connection>scm:git:ssh://github.com/mybatis/redis-cache.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/mybatis/redis-cache.git</developerConnection>
-    <tag>HEAD</tag>
-  </scm>
   <issueManagement>
     <system>GitHub Issue Management</system>
     <url>https://github.com/mybatis/redis-cache/issues</url>
@@ -51,13 +43,6 @@
     <system>Travis CI</system>
     <url>https://travis-ci.org/mybatis/redis-cache</url>
   </ciManagement>
-  <distributionManagement>
-    <site>
-      <id>gh-pages</id>
-      <name>Mybatis GitHub Pages</name>
-      <url>git:ssh://git@github.com/mybatis/redis-cache.git?gh-pages#</url>
-    </site>
-  </distributionManagement>
 
   <properties>
     <clirr.comparisonVersion>1.0.3</clirr.comparisonVersion>
