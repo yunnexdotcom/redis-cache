@@ -19,7 +19,7 @@ import org.apache.ibatis.cache.Cache;
 import org.mybatis.caches.redis.DummyReadWriteLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.redis.core.RedisTemplate;
+import yunnex.redis.RedisCommands;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -32,7 +32,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 public final class RedisCache implements Cache {
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisCache.class);
     private final ReadWriteLock readWriteLock = new DummyReadWriteLock();
-    private RedisTemplate<Object, Object> redisTemplate;
+    private RedisCommands redisCommands;
     private String id;
     private Integer timeout;
 
@@ -51,9 +51,9 @@ public final class RedisCache implements Cache {
     @Override
     public void putObject(final Object key, final Object value) {
         try {
-            redisTemplate().opsForHash().put(id, key.toString(), value);
+            redisCommands().hset(id, key.toString(), value);
             if (timeout != null) {
-                redisTemplate().expire(id, timeout, TimeUnit.MILLISECONDS);
+                redisCommands().expire(id, timeout, TimeUnit.MILLISECONDS);
             }
         } catch (Exception e) {
             LOGGER.error("fail to putObject ,id:{},key:{},value:{},timeout:{}", id, key, value, timeout, e);
@@ -63,7 +63,7 @@ public final class RedisCache implements Cache {
     @Override
     public Object getObject(final Object key) {
         try {
-            return redisTemplate().opsForHash().get(id, key.toString());
+            return redisCommands().hgetObject(id, key.toString());
         } catch (Exception e) {
             LOGGER.error("fail to getObject ,id:{},key:{}", id, key, e);
         }
@@ -73,7 +73,7 @@ public final class RedisCache implements Cache {
     @Override
     public Object removeObject(final Object key) {
         try {
-            return redisTemplate().opsForHash().delete(id, key.toString());
+            return redisCommands().hdel(id, key.toString());
         } catch (Exception e) {
             LOGGER.error("fail to removeObject ,id:{},key:{}", id, key, e);
         }
@@ -83,7 +83,7 @@ public final class RedisCache implements Cache {
     @Override
     public void clear() {
         try {
-            redisTemplate().delete(id);
+            redisCommands().del(id);
         } catch (Exception e) {
             LOGGER.error("fail to clear ,id:{}", id, e);
         }
@@ -92,7 +92,7 @@ public final class RedisCache implements Cache {
     @Override
     public int getSize() {
         try {
-            return redisTemplate().opsForHash().size(id).intValue();
+            return redisCommands().hlen(id).intValue();
         } catch (Exception e) {
             LOGGER.error("fail to getSize,id:{},", id, e);
         }
@@ -113,11 +113,11 @@ public final class RedisCache implements Cache {
         this.timeout = timeout;
     }
 
-    private RedisTemplate<Object, Object> redisTemplate() {
-        if (redisTemplate == null) {
-            redisTemplate = RedisCacheContext.getRedisTemplate();
+    private RedisCommands redisCommands() {
+        if (redisCommands == null) {
+            redisCommands = RedisCacheContext.getRedisCommands();
         }
-        return redisTemplate;
+        return redisCommands;
     }
 
 }
